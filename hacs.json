@@ -1,0 +1,5 @@
+{
+    "name": "Legrand RF Lighting ",
+    "render_readme": true,
+    "domains": ["dimmer","switch"]
+}
