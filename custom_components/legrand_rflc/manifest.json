@@ -6,7 +6,7 @@
   "documentation": "https://www.home-assistant.io/integrations/legrand_rflc",
   "requirements": ["lc7001==1.0.3"],
   "dependencies": [],
-  "codeowners": ["@rtyle"],
+  "codeowners": ["@rtyle","@akhudek"],
   "iot_class": "local_push",
   "dhcp": [{"hostname": "legrand lc7001"}]
 }
