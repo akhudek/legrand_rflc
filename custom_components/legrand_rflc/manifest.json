@@ -1,7 +1,7 @@
 {
   "domain": "legrand_rflc",
   "name": "Legrand RF Lighting Control",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "config_flow": true,
   "documentation": "https://www.home-assistant.io/integrations/legrand_rflc",
   "requirements": ["lc7001==1.0.3"],

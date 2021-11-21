@@ -12,6 +12,7 @@ from homeassistant.components.light import (
     LightEntity,
 )
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.entity import DeviceInfo
 
 from .const import DOMAIN
 
@@ -23,6 +24,7 @@ class _Switch(LightEntity):
         self._hub = hub
         self._attr_name = properties[hub.NAME]
         self._attr_is_on = properties[hub.POWER]
+        self._device_type = properties[hub.DEVICE_TYPE]
         self._zid = zid
         hub.on(
             f"{hub.EVENT_ZONE_PROPERTIES_CHANGED}:{zid}",
@@ -40,6 +42,16 @@ class _Switch(LightEntity):
     @property
     def available(self) -> bool:
         return self._hub.connected and self._hub.authenticated
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        return DeviceInfo(
+                identifiers={(DOMAIN, self.unique_id)},
+                manufacturer="Legrand",
+                model="LC7001",
+                name=f"{self._attr_name}  {self._device_type}",
+                via_device=(DOMAIN,self._hub.host()),
+            )
 
     async def _available(self) -> None:
         self.async_write_ha_state()

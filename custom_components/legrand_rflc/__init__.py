@@ -13,6 +13,7 @@ from homeassistant import config_entries
 from homeassistant.config_entries import SOURCE_REAUTH
 from homeassistant.const import CONF_AUTHENTICATION, CONF_HOST, CONF_PORT
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers import device_registry as dr
 
 from .const import DOMAIN
 
@@ -38,6 +39,17 @@ async def async_setup_entry(
     if CONF_PORT in data:  # for testing only (server emulation on localhost)
         kwargs["port"] = data[CONF_PORT]
     hass.data[DOMAIN][entry_id] = hub = lc7001.aio.Hub(host, **kwargs)
+
+    # Register a device representing the hub.
+    device_registry = dr.async_get(hass)
+    device_registry.async_get_or_create(
+        config_entry_id=entry.entry_id,
+        connections={(dr.CONNECTION_NETWORK_MAC, host)},
+        identifiers={(DOMAIN, host)},
+        manufacturer="Legrand",
+        name="Whole House Lighting Controller",
+        model="LC7001",
+    )
 
     async def setup_platforms() -> None:
         hass.config_entries.async_setup_platforms(entry, PLATFORMS)
