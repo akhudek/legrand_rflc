@@ -7,9 +7,9 @@ from homeassistant import config_entries
 from homeassistant.components.light import (
     ATTR_BRIGHTNESS,
     ATTR_TRANSITION,
-    COLOR_MODE_BRIGHTNESS,
-    SUPPORT_TRANSITION,
+    LightEntityFeature,
     LightEntity,
+    ColorMode,
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import DeviceInfo
@@ -19,6 +19,8 @@ from .const import DOMAIN
 
 class _Switch(LightEntity):
     _attr_should_poll = False
+    _attr_color_mode = ColorMode.ONOFF
+    _attr_supported_color_modes = {ColorMode.ONOFF}
 
     def __init__(self, hub, zid: int, properties: Mapping):
         self._hub = hub
@@ -85,9 +87,9 @@ class _Switch(LightEntity):
 
 
 class _Dimmer(_Switch):
-    _attr_color_mode = COLOR_MODE_BRIGHTNESS
-    _attr_supported_color_modes = {COLOR_MODE_BRIGHTNESS}
-    _attr_supported_features = SUPPORT_TRANSITION
+    _attr_color_mode = ColorMode.BRIGHTNESS
+    _attr_supported_color_modes = {ColorMode.BRIGHTNESS}
+    _attr_supported_features = LightEntityFeature.TRANSITION
 
     @staticmethod
     def _normalize(value: int, ceiling: int) -> float:
