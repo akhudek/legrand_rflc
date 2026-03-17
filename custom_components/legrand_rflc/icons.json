@@ -1,0 +1,12 @@
+{
+    "entity": {
+        "light": {
+            "switch": {
+                "default": "mdi:light-switch"
+            },
+            "dimmer": {
+                "default": "mdi:lightbulb"
+            }
+        }
+    }
+}
